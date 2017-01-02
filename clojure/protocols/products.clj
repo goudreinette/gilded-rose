@@ -1,6 +1,5 @@
 (ns products)
 
-; Product types: Product, Legendary, Conjured, Ripening, Ticket
 
 (defn within-bounds [n]
   (condp #(%1 %2) n

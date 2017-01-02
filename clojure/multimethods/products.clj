@@ -1,20 +1,6 @@
 (ns products)
 
 
-(defn product
-  [name & {:keys [quality sell-in type]
-           :as product}]
-  (merge {:name name
-          :type :default
-          :quality 50} product))
-
-(defn update-product [{:keys [sell-in quality] :as product}]
-  (as-> product p
-    (when (some? (:sell-in p))
-      (update p :sell-in dec))
-    (assoc p :quality
-      (update-quality p))))
-
 (defn within-bounds [n]
   (cond
     (<= n 0)  0
@@ -48,3 +34,18 @@
       5  (+ quality 3)
       10 (+ quality 2)
          (+ quality 1))))
+
+; Exported
+(defn product
+ [name & {:keys [quality sell-in type]
+          :as product}]
+ (merge {:name name
+         :type :default
+         :quality 50} product))
+
+(defn update-product [{:keys [sell-in quality] :as product}]
+ (as-> product p
+   (when (some? (:sell-in p))
+     (update p :sell-in dec))
+   (assoc p :quality
+     (update-quality p))))
