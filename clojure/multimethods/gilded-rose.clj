@@ -1,40 +1,7 @@
-(ns multimethods)
+(ns gilded-rose
+  (:require [products :refer [product]]))
 
-; Product types: Product, Legendary, Conjured, Ripening, Ticket
-
-(defn within-bounds [n]
-  (condp #(%1 %2) n
-    (<= 0)  0
-    (>= 50) 50))
-
-(defprotocol IsProduct
-  (update-quality [this]))
-
-(defrecord Product [name sell-in quality] IsProduct
-  (update-quality [{:keys [sell-in quality]}]
-    (within-bounds
-      (if (< 0 sell-in)
-        (- quality 2)
-        (- quality 1)))))
-
-(defrecord Ripening [name sell-in quality] IsProduct
-  (update-quality [{:quality quality}]
-    (within-bounds (+ quality 2))))
-
-
-(defrecord Legendary [name sell-in quality] IsProduct
-  (update-quality [this] 80))
-
-(defrecord Conjured [name sell-in quality] IsProduct
-  (update-quality [this]
-    (within-bounds
-      (if (< 0 sell-in)
-        (- quality 4)
-        (- quality 2)))))
-
-(defrecord Ticket [name sell-in quality] IsProduct
-  (update-quality [{:keys [name sell-in quality]}]
-    (within-bounds
-      (condp <= expr
-        10 (+ quality 2)
-        5  (+ quality 3)))))
+(def inventory [(product "+5 Dexterity Vest" :sell-in 10 :quality 20)
+                (product "Aged Brie" :type :ripening :sell-in 2 :quality 12)
+                (product "Elixir of the Mongoose" :sell-in 5 :quality 7)
+                (product "Sulfuras, Hand of Ragnaros" :type :legendary :quality 80)])
