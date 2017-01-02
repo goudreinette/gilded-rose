@@ -7,8 +7,8 @@
     (>= n 50) 50
     :else     n))
 
-(defn age-normally [{:keys [sell-in quality]} & [multiplier]]
-  (assert sell-in "Normal aging products need a 'sell-in' key")
+(defn age-normally [{:keys [sell-in quality name]} & [multiplier]]
+  (assert sell-in (str "Normal aging products need a 'sell-in' key"))
   (if (< sell-in 0)
     (- quality (* 2 (or multiplier 1)))
     (- quality (* 1 (or multiplier 1)))))
@@ -45,7 +45,7 @@
 
 (defn update-product [{:keys [sell-in quality] :as product}]
  (as-> product p
-   (when (some? (:sell-in p))
-     (update p :sell-in dec))
+   (if (some? (:sell-in p))
+     (update p :sell-in dec) p)
    (assoc p :quality
      (update-quality p))))
