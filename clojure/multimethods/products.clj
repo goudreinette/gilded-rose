@@ -38,10 +38,9 @@
 ; Exported
 (defn product
  [name & {:keys [quality sell-in type]
-          :as product}]
- (merge {:name name
-         :type :default
-         :quality 50} product))
+          :as product
+          :or {:quality 50 :type :default}}]
+ (assoc product :name name))
 
 (defn update-product [{:keys [sell-in quality] :as product}]
  (as-> product p
